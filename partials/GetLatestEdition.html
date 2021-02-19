@@ -1,0 +1,8 @@
+{{ $edition := dict }}
+{{ with partialCached "tnd-books/GetEditions" . . }}
+  {{ with index . 0 }}
+    {{ $edition = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $edition }}

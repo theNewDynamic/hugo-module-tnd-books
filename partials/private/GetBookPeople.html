@@ -1,0 +1,17 @@
+{{ $s := newScratch }}
+{{ $s.Set "people" dict }}
+{{ range $key := slice "translators" "editors" "contributors" }}
+  {{ with index $.Params $key }}
+    {{ $persons := slice }}
+    {{ range . }}
+      {{ with site.GetPage . }}
+        {{ $persons = $persons | append . }}
+      {{ end }}
+    {{ end }}
+    {{ with $persons }}
+      {{ $s.SetInMap "people" $key . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $s.Get "people" }}

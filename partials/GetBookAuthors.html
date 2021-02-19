@@ -1,0 +1,12 @@
+{{ $authors := slice }}
+{{ range .Params.authors }}
+  {{ with site.GetPage . }}
+    {{ $authors = $authors | append . }}
+  {{ end }}
+{{ else }}
+  {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
+    {{ $authors := slice $authors }}
+  {{ end }}
+{{ end }}
+
+{{ return $authors }}

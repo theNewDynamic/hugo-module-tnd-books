@@ -1,0 +1,10 @@
+{{ $editions := slice }}
+{{ with .Params.editions }}
+  {{ range . }}
+    {{ with partialCached "tnd-books/GetEdition" . .}}
+      {{ $editions = $editions | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $editions }}

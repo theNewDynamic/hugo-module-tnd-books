@@ -1,0 +1,6 @@
+- id: Edited by
+  translation: Edited by
+- id: With a contribution by
+  translation: With a contribution by
+- id: Translated by
+  translation: Translated {{ with .Params.language }}from the {{ . }}{{ end }}by

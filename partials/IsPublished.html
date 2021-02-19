@@ -1,0 +1,22 @@
+{{/*
+  IsPublished
+  Returns a boolean on the published status of an edition based on .date
+
+  @author @regisphilibert
+
+  @context Map
+    - (See GetEdition)
+
+  @access public
+
+  @return bool
+  
+*/}}
+{{ $published := false }}
+{{ with . }}
+  {{ with .date }}
+  {{ $published := (time .).Before now }}
+  {{ end }}
+{{ end }}
+
+{{ return $published }}

@@ -1,0 +1,35 @@
+{{/*
+  GetBinding
+
+  Retrieves a Book's given binding if found.
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @return Map (.)
+
+  @access public
+
+  @example - Go Template
+    {{ with partial "tnd-books/private/GetBinding" (dict "Page" $ "binding" "audiobook") }}
+      {{ partial "audioplayer" $ }}
+    {{ end }}
+*/}}
+
+{{ $return := false }}
+
+{{ $binding := false }}
+{{ with .binding }}
+  {{ $binding = . }}
+{{ end }}
+
+{{ with .Page }}
+  {{ with .Params.editions }}
+    {{ with where . "binding" "==" $binding }}
+      {{ $return = index . 0 }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

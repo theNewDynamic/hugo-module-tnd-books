@@ -1,0 +1,8 @@
+{{ $authors := "" }}
+{{ with partialCached "tnd-books/GetBookAuthors" . }}
+  {{ $authors = apply . "partial" "tnd-books/view/author.html" "." }}
+  {{ $authors = delimit $authors "," }}
+{{ else }}
+  {{ partial "tnd-books/warn" (printf "There is no authors assigned to %s" .File.Path) }}
+{{ end }}
+{{ return $authors }}

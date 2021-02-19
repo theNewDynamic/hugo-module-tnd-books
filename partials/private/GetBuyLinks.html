@@ -1,0 +1,59 @@
+{{/*
+  GetBuyLinks
+
+  Retrieve the list of BuyLinks any book should present
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @return Slice
+    - String (.URL)
+      String (.Name)
+
+  @example - Go Template
+    {{ partial "path" context }}
+    {{ partialCached "path" context "variant" }}
+*/}}
+{{ $return := slice }}
+{{/* Some services uses the Last Edition */}}
+{{ $default_services := `
+  - id: bookshop
+    label: Your Independent Bookstore
+  - id: barnesandnoble
+    label: Barnes & Noble
+  - id: amazon
+    label: Amazon
+  ` | transform.Unmarshal }}
+{{/* Audio services are a bit special and will be processed seperately */}}
+{{ $audiobooks_services := `
+  - id: audible
+    label: "Audible.com"
+  - id: apple_books
+    label: "Apple Books"
+  # - id: libro
+  #   label: "Libro.fm"
+  ` | transform.Unmarshal }}
+
+{{/* If we do have editions */}}
+{{ with $.Params.editions }}
+  {{/* We isolate the first one in the list as it is set as the "buyable" one for regular books.  */}}
+  {{ $lastEdition := index (first 1 .) 0 }}
+  {{/* Regular Edition uses the ISBN to build the URL. */}}
+  {{ range $service := $default_services }}
+    {{ with partial "tnd-books/private/GetBuyLinkURL" (dict "service" .id "edition" $lastEdition) }}
+      {{ $return = $return | append (dict "Name" $service.label "URL" .) }}
+    {{ end }}
+  {{ end }}
+
+  {{/* We now process audiobooks by isolating Editions of binding "audiobook" */}}
+  {{ with $audiobook := partialCached "tnd-books/private/GetBinding" (dict "Page" $ "binding" "audiobook") $.File.UniqueID "audiobook" }}
+      {{ range $service := $audiobooks_services }}
+        {{ with partial "tnd-books/private/GetBuyLinkURL" (dict "service" .id "edition" $audiobook) }} 
+          {{ $return = $return | append (dict "Name" $service.label "URL" .) }}
+        {{ end }}
+      {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

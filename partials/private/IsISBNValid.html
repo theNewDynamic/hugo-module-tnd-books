@@ -1,0 +1,21 @@
+{{/*
+  IsISBNValid
+  Check if a given string is a valid ISBN number.
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access public
+
+  @return Bool 
+
+  @example - Go Template
+    {{ partial "path" context }}
+    {{ partialCached "path" context "variant" }}
+*/}}
+{{ $valid := true }}
+{{ if not (findRE `978(?:-?\d){10}` .) }}
+  {{ $valid = false }}
+{{ end }}
+
+{{ return $valid }}

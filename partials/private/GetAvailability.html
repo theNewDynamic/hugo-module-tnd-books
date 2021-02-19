@@ -1,0 +1,15 @@
+{{ $available := false }}
+{{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
+{{ $date_format := "January 2, 2006" }}
+{{ with $config.date_format }}
+  {{ $date_format = . }}
+{{ end }}
+{{ with partialCached "tnd-books/GetLatestEdition" . . }}
+  {{ if not (partial "tnd-books/IsPublished" .) }}
+    {{ with .date }}
+      {{ $available = . | dateFormat $date_format}}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $available }}

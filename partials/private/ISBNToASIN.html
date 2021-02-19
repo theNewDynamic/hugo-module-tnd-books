@@ -1,0 +1,59 @@
+{{/*
+  Convert ISBN string to ASIN (Amazon)
+
+  Port from
+  ```
+  function ISBN13toISBN10(isbn13) {
+    var start = isbn13.substring(3, 12);
+    console.log(start)
+    var sum = 0;
+    var mul = 10;
+    var i;
+    for (i = 0; i < 9; i++) {
+      sum = sum + (mul * parseInt(start[i]));
+      mul -= 1;
+    }
+    var checkDig = 11 - (sum % 11);
+    if (checkDig == 10) {
+      checkDig = "X";
+    } else if (checkDig == 11) {
+      checkDig = "0";
+    }
+    return start + checkDig;
+  }
+  ```
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access public
+
+  @return String (.)
+
+  @example - Go Template
+    {{ with partial "tnd-books/private/ISBNToASIN" . }}
+      {{ $url = printf "https://www.amazon.com/dp/%s" . }}
+    {{ end }}
+*/}}
+
+{{ $return := 0 }}
+{{ $start := substr . 3 9 }}
+{{ $sum := 0 }}
+{{ $mul := 10 }}
+{{ range split $start "" }}
+  {{ $sum = add $sum (mul $mul (int .)) }}
+  {{ $mul = sub $mul 1 }}
+{{ end }}
+
+{{ $checkDig := sub 11 (mod $sum 11) }}
+{{ $return = $checkDig }}
+{{ if eq $checkDig 10 }}
+  {{ $checkDig = "X" }}
+{{ else if eq $checkDig 11 }}
+  {{ $checkDig = "0" }}
+{{ end }}
+
+{{ $return = add $start (string $checkDig) }}
+
+{{ return $return }}

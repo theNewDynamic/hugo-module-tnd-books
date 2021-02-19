@@ -1,0 +1,8 @@
+{{ $cover := "" }}
+{{ with partialCached "tnd-books/GetLatestEdition" . .}}
+  {{ with .cover }}
+    {{ $cover = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $cover }}

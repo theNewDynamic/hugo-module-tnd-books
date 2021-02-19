@@ -1,0 +1,5 @@
+{{ with partialCached "tnd-books/private/GetAvailability" . . }}
+  <div class="py-4 text-2xl text-center text-red-500">
+    Available {{ . }}
+  </div>
+{{ end }}

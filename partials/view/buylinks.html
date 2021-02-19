@@ -1,0 +1,7 @@
+<div class="flex">
+{{ range partial "tnd-books/private/GetBuyLinks" . }}
+<a href="{{ .URL }}" target="_blank" rel="noreferrer" class="mx-2 border rounded p-4">
+  {{ .Name }}
+</a>
+{{ end }}
+</div>
