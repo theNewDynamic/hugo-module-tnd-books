@@ -1,0 +1,3 @@
+{{ range partialCached "tnd-books/private/GetBookReviews" . . }}
+  {{ partialCached "tnd-books/view/review" . . }}
+{{ end }}

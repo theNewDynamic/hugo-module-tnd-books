@@ -2,16 +2,11 @@
 {{ $s.Set "people" dict }}
 {{ range $key := slice "translators" "editors" "contributors" }}
   {{ with index $.Params $key }}
-    {{ $persons := slice }}
-    {{ range . }}
-      {{ with site.GetPage . }}
-        {{ $persons = $persons | append . }}
-      {{ end }}
+    {{ $persons := . }}
+    {{ if not (reflect.IsSlice .) }}
+      {{ $persons = slice . }}
     {{ end }}
-    {{ with $persons }}
-      {{ $s.SetInMap "people" $key . }}
-    {{ end }}
+    {{ $s.SetInMap "people" $key . }}
   {{ end }}
 {{ end }}
-
 {{ return $s.Get "people" }}

@@ -37,19 +37,26 @@ module:
 Settings are added to the project's parameter under the `tnd_books` map as shown below.
 
 ```yaml
-# config.yaml
+# config.yaml's example and defaults
 params:
   tnd_books:
-    [...]
+    authors_key: authors
+    date_format: January 2, 2006
+    default_author: false
 ```
 
-#### Configure Key 1
+#### authors_key (default: authors)
 
-#### Configure Key 2
+Direct the Front Matter key used to store the list of authors as content files.
 
-#### Defaults
+#### default_author (default: false)
 
-ld copy/paste the above to your settings and append with new extensions.
+If set, Books without any Front Matter "authors" will resolve to use this content file as author. This is useful for author site where most books are written by the same author.
+
+#### date_format (default: January 2, 2006)
+
+Whenever the module templates is printing dates, this format in [Go Layout string](https://gohugo.io/functions/format/#gos-layout-string) will will be used.
+
 
 ## theNewDynamic
 

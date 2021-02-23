@@ -1,9 +1,23 @@
+{{/*
+  GetAvailability
+  Retrieve the availability of a book by comparing its latest edition's date with present time.
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access public
+
+  @returns False or String
+
+  @use
+    - tnd-books/private/GetDateFormat
+    - tnd-books/GetLatestEdition
+    - tnd-books/IsPublished
+  
+*/}}
 {{ $available := false }}
-{{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
-{{ $date_format := "January 2, 2006" }}
-{{ with $config.date_format }}
-  {{ $date_format = . }}
-{{ end }}
+{{ $date_format := partialCached "tnd-books/private/GetDateFormat" "GetDateFormat" }}
 {{ with partialCached "tnd-books/GetLatestEdition" . . }}
   {{ if not (partial "tnd-books/IsPublished" .) }}
     {{ with .date }}

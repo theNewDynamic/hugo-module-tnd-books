@@ -1,0 +1,8 @@
+{{ $review := dict }}
+{{ with partialCached "tnd-books/private/GetBookReviews" . . }}
+  {{ with where . "featured" true }}
+    {{ $review = index . 0 }}
+  {{ end }}
+{{ end }}
+
+{{ return $review }}

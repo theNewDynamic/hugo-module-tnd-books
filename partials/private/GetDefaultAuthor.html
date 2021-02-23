@@ -1,7 +1,7 @@
-{{ $author := slice }}
+{{ $author := "" }}
 {{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
 {{ with $config.default_author }}
-  {{ with site.GetPage . }}
-    {{ $authors = slice . }}
-  {{ end }}
+  {{ $author = . }}
 {{ end }}
+
+{{ return $author }}

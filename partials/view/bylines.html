@@ -1,4 +1,4 @@
-{{ with partialCached "tnd-books/private/GetBookPeople" . .}}
+{{ with partialCached "tnd-books/private/GetBookPeople" . . }}
   {{ with .translators }}
     <p class="text-xl leading-tight">
       Translated {{with $.Params.language}}from the {{ . }} {{end}}by

@@ -1,0 +1,32 @@
+{{/*
+  GetAuthors
+  Retrieves a list of authors from either a given Book's .Params.authors, or a given slice of filepaths
+
+  @author @regisphilibert
+
+  @context Page OR Slice of strings (.)
+
+  @access public
+
+*/}}
+{{ $authors_files := slice }}
+{{ $authors_key := partialCached "tnd-books/private/GetParamsKey" "authors" "authors" }}
+{{ $authors := slice }}
+{{ if reflect.IsSlice $ }}
+    {{ $authors_files = . }}
+{{ else }}
+  {{ with index $.Params $authors_key }}
+    {{ $authors_files = . }}
+  {{ else }}
+    {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
+      {{ $authors_files = slice . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ range $authors_files }}
+  {{ with site.GetPage . }}
+    {{ $authors = $authors | append . }}
+  {{ end }}
+{{ end }}
+
+{{ return $authors }}

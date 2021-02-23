@@ -1,0 +1,26 @@
+{{/*
+  GetBookReviews
+  Retrieves reviews related to a given book
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Slice of strings
+
+  @uses
+      - Type
+
+  @example - Go Template
+    {{ with partialCached "tnd-books/private/GetBookReviews" $ $ }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $reviews := slice }}
+{{ with .Params.reviews }}
+  {{ $reviews = . }}
+{{ end }}
+
+{{ return $reviews }}
