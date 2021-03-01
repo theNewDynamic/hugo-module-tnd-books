@@ -1,0 +1,5 @@
+{{ with partialCached "tnd-books/GetLatestEdition" . . }}
+  {{ with .date }}
+  <time datetime="{{ .raw }}">{{ .rendered }}</time>
+  {{ end }}
+{{ end }}

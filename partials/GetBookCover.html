@@ -1,3 +1,23 @@
+{{/*
+  GetBookCover
+  Retrieves book's cover_image
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access public
+
+  @returns Type
+
+  @uses
+     - tnd-books/GetLatestEdition
+
+  @example - Go Template
+    {{ with partialCached "GetBookCover" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
 {{ $cover := "" }}
 {{ with partialCached "tnd-books/GetLatestEdition" . .}}
   {{ with .cover }}

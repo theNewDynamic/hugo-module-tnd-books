@@ -1,0 +1,15 @@
+{{ $s := newScratch }}
+{{ with .Title }}
+  {{ $s.SetInMap "data" "title" . }}
+{{ end }}
+{{ with .Params.attribution }}
+  {{ $s.SetInMap "data" "attribution" . }}
+{{ end }}
+{{ with .Params.links_to_original }}
+  {{ $s.SetInMap "data" "link_to_original" . }}
+{{ end }}
+{{ with .Content }}
+  {{ $s.SetInMap "data" "copy" . }}
+{{ end }}
+
+{{ return $s.Get "data" }}

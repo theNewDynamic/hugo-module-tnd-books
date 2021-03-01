@@ -1,7 +1,7 @@
 {{ $editions := slice }}
 {{ with .Params.editions }}
   {{ range . }}
-    {{ with partialCached "tnd-books/GetEdition" . .}}
+    {{ with partialCached "tnd-books/private/ParseEdition" . . }}
       {{ $editions = $editions | append . }}
     {{ end }}
   {{ end }}

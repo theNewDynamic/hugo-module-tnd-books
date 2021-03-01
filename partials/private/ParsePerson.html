@@ -1,0 +1,18 @@
+{{ $s := newScratch }}
+{{ $s.Set "data" dict }}
+{{ with .Params.full_name }}
+  {{ $s.SetInMap "data" "Name" . }}
+{{ else }}
+  {{ $s.SetInMap "data" "Name" .Title }}
+{{ end }}
+
+{{ with .RelPermalink }}
+  {{ $s.SetInMap "data" "URL" . }}
+{{ end }}
+{{ range $key := slice "first_name" "last_name" "image" }}
+  {{ with index $.Params $key }}
+    {{ $s.SetInMap "data" $key . }}
+  {{ end }}
+{{ end }}
+
+{{ return $s.Get "data" }}

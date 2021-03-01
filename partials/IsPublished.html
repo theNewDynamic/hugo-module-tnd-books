@@ -15,7 +15,9 @@
 {{ $published := false }}
 {{ with . }}
   {{ with .date }}
-  {{ $published := (time .).Before now }}
+    {{ with .raw }}
+      {{ $published = (time .).Before now }}
+    {{ end }}
   {{ end }}
 {{ end }}
 

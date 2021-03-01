@@ -17,11 +17,10 @@
   
 */}}
 {{ $available := false }}
-{{ $date_format := partialCached "tnd-books/private/GetDateFormat" "GetDateFormat" }}
 {{ with partialCached "tnd-books/GetLatestEdition" . . }}
   {{ if not (partial "tnd-books/IsPublished" .) }}
     {{ with .date }}
-      {{ $available = . | dateFormat $date_format}}
+      {{ $available = .rendered }}
     {{ end }}
   {{ end }}
 {{ end }}

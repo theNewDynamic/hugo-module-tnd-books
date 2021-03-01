@@ -20,7 +20,9 @@
 */}}
 {{ $reviews := slice }}
 {{ with .Params.reviews }}
-  {{ $reviews = . }}
+    {{ range . }}
+      {{ $reviews = $reviews | append (partialCached "tnd-books/private/GetReview" . .) }}
+    {{ end }}
 {{ end }}
 
 {{ return $reviews }}

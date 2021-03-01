@@ -1,0 +1,38 @@
+{{/*
+  GetBookPersons
+  Retrieve book contributor based on a list of Param keys holding file paths
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Map (See tnd-books/private/ParsePerson@returns)
+
+  @uses
+     - tnd-books/private/ParsePerson
+
+  @example - Go Template
+    {{ with partialCached "tnd-books/private/GetBookPersons" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $s := newScratch }}
+{{ $s.Set "people" dict }}
+{{ range $key := slice "translators" "editors" "contributors" }}
+  {{ with index $.Params $key }}
+    {{ $persons := . }}
+    {{ $pages := slice }}
+    {{ if not (reflect.IsSlice .) }}
+      {{ $persons = slice . }}
+    {{ end }}
+    {{ range $persons }}
+      {{ with site.GetPage . }}
+        {{ $pages = $pages | append . }}
+      {{ end }}
+    {{ end }}
+    {{ $s.SetInMap "people" $key (apply $pages "partialCached" "tnd-books/private/ParsePerson" "." ".") }}
+  {{ end }}
+{{ end }}
+{{ return $s.Get "people" }}

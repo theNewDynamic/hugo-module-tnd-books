@@ -1,0 +1,16 @@
+{{/*
+  persons
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access public
+
+  @example - Go Template
+  {{ partial "tnd-books/view/authors.html" . }}
+*/}}
+{{ $persons := . }}
+{{ $persons = apply . "partial" "tnd-books/view/person.html" "." }}
+{{ $persons = delimit $persons "," }}
+{{ return $persons }}

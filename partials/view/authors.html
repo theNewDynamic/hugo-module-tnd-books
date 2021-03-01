@@ -1,18 +1,10 @@
-{{/*
-  author
 
-  @author @regisphilibert
-
-  @context Page (.)
-
-  @access public
-
-  @example - Go Template
-  {{ partial "tnd-books/view/authors.html" . }}
-*/}}
 {{ $authors := slice }}
-{{ with partialCached "tnd-books/GetAuthors" . . }}
-  {{ $authors = apply . "partial" "tnd-books/view/author.html" "." }}
+{{ with partialCached "tnd-books/GetBookAuthors" . .}}
+  {{ $authors = apply . "partial" "tnd-books/view/person.html" "." }}
   {{ $authors = delimit $authors "," }}
+{{ else}}
+{{ partial "tnd-books/warn" "No default_authors or book authors assigned." }}
 {{ end }}
+
 {{ return $authors }}

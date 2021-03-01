@@ -1,11 +1,43 @@
+{{/*
+  GetBookAuthors
+  Retrieves a list of authors from either a given Book's .Params.authors and returns a slice of their parsed data
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Slice of Maps
+    - See tnd-books/ParsePersons@returns
+
+  @uses
+     - tnd-books/private/GetParamsKey
+     - tnd-books/private/GetDefaultAuthor
+     - tnd-books/private/ParsePerson
+
+  @example - Go Template
+    {{ with partialCached "tnd-books/GetBookAuthors" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $authors_files := slice }}
+{{ $authors_key := partialCached "tnd-books/private/GetParamsKey" "authors" "authors" }}
 {{ $authors := slice }}
-{{ range .Params.authors }}
-  {{ with site.GetPage . }}
-    {{ $authors = $authors | append . }}
-  {{ end }}
+{{ if reflect.IsSlice $ }}
+    {{ $authors_files = . }}
 {{ else }}
-  {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
-    {{ $authors := slice $authors }}
+  {{ with index $.Params $authors_key }}
+    {{ $authors_files = . }}
+  {{ else }}
+    {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
+      {{ $authors_files = slice . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ range $authors_files }}
+  {{ with site.GetPage . }}
+    {{ $authors = $authors | append (partialCached "tnd-books/private/ParsePerson" . .) }}
   {{ end }}
 {{ end }}
 

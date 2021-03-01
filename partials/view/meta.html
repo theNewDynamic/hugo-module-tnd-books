@@ -1,0 +1,9 @@
+{{ with partialCached "tnd-books/private/GetBookMeta" . . }}
+<div class="my-8">
+{{ range . }}
+  <div>
+    {{ .label }}: {{ .value }}
+  </div>
+{{ end }}
+</div>
+{{ end }}

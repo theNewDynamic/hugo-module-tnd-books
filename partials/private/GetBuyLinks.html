@@ -20,6 +20,7 @@
     {{ partialCached "path" context "variant" }}
 */}}
 {{ $return := slice }}
+{{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
 {{/* Some services uses the Last Edition */}}
 {{ $default_services := `
   - id: bookshop
@@ -29,6 +30,9 @@
   - id: amazon
     label: Amazon
   ` | transform.Unmarshal }}
+{{ with $config.retailers }}
+  {{ $default_services = . }}
+{{ end }}
 {{/* Audio services are a bit special and will be processed seperately */}}
 {{ $audiobooks_services := `
   - id: audible

@@ -1,0 +1,10 @@
+{{ $review := dict }}
+{{ if reflect.IsMap . }}
+  {{ $review = . }}
+{{ else }}
+  {{ with site.GetPage . }}
+    {{ $review = partialCached "tnd-books/private/ParseReview" . . }}
+  {{ end }}
+{{ end }}
+
+{{ return $review }}

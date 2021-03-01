@@ -1,0 +1,28 @@
+{{/*
+  GetBookMeta
+  Retrieve metas of a given book's latest edition
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Map
+
+  @uses
+     - tnd-books/GetLatestEdition
+
+  @example - Go Template
+    {{ with partialCached "tnd-books/private/GetBookMeta" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $meta := slice }}
+{{ with partialCached "tnd-books/GetLatestEdition" . . }}
+  {{ with .meta }}
+    {{ $meta = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $meta }}

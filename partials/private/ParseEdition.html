@@ -1,0 +1,79 @@
+{{/*
+  ParseEdition
+  Structure the data for Editions from a given map of raw data
+
+  @author @regisphilibert
+
+  @context Map (.)
+
+  @access private
+
+  @returns Map
+    String (.binding)
+    String (.cover)
+    String (.ISBN)
+    Map (.date)
+      Date (.raw)
+      String (.rendered)
+    Slice of Maps (.meta)
+      - String (.label)
+        String (.value)
+
+  @uses
+     - tnd-books/private/GetDateFormat
+
+  @example - Go Template
+    {{ with partialCached "ParseEdition" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $s := newScratch }}
+{{ $s.Set "data" dict }}
+{{ $meta := slice }}
+
+{{ with . }}
+  {{ with .binding }}
+    {{ $s.SetInMap "data" "binding" (humanize .)}}
+  {{ end }}
+  {{ with .cover_image }}
+    {{ $s.SetInMap "data" "cover" . }}
+  {{ end }}
+
+  {{ with .isbn }}
+    {{ $s.SetInMap "data" "ISBN" . }}
+    {{ $meta = $meta | append (dict "label" "ISBN" "value" .) }}
+  {{ end }}
+
+  {{ with .date }}
+    {{ $date_format := partialCached "tnd-books/private/GetDateFormat" "GetDateFormat" }}
+    {{ $date := dict "raw" . "rendered" (. | dateFormat $date_format) }}
+    {{ $s.SetInMap "data" "date" $date }}
+  {{ end }}
+
+  {{ with .publisher }}
+    {{ $meta = $meta | append (dict "label" "Publisher" "value" .) }}
+  {{ end }}
+
+
+
+  {{with .sales_data.price_us}}
+    {{ $meta = $meta | append (dict "label" "Price US" "value" .) }}
+  {{end}}
+
+  {{with .sales_data.price_cn}}
+    {{ $meta = $meta | append (dict "label" "Price CN" "value" .) }}
+  {{end}}
+
+  {{with .sales_data.trim_size}}
+    {{ $meta = $meta | append (dict "label" "Trim Size" "value" .) }}
+  {{end}}
+
+  {{with .sales_data.page_count}}
+    {{ $meta = $meta | append (dict "label" (humanize "page_count") "value" .) }}
+  {{end}}
+
+  {{ $s.SetInMap "data" "meta" $meta }}
+
+{{ end }}
+
+{{ return $s.Get "data" }}
