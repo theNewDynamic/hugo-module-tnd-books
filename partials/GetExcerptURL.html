@@ -1,0 +1,27 @@
+{{/*
+  GetExcerptURL
+  Retrieves URL of the Book's excerpt Output Format
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access public
+
+  @returns String
+
+  @example - Go Template
+    {{ with partialCached "tnd-books/GetExcerptURL" $ $ }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $url := "" }}
+{{ with .Params.excerpt }}
+  {{/* See https://github.com/gohugoio/hugo/issues/8292
+  where Hugo fails to returns proper OutputFormat's URL when using dir in baseName */}}
+  {{ with $.OutputFormats.Get "tnd_books_excerpt" }}
+    {{ $url = print $.RelPermalink "excerpt/" }}
+  {{ end }}
+{{ end }}
+
+{{ return $url }}

@@ -2,7 +2,16 @@ module:
   hugoVersion:
     min: "0.64.0"
   mounts:
+  - source: layouts
+    target: layouts
+  - source: templates/single.tnd_books_excerpt.html
+    target: layouts/book/single.tnd_books_excerpt.html
   - source: partials
     target: layouts/partials/tnd-books
   - source: console
     target: layouts/partials/tnd-books
+
+outputFormats:
+  tnd_books_excerpt:
+    baseName: excerpt/index
+    mediatype: text/html

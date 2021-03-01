@@ -58,6 +58,30 @@ If set, Books without any Front Matter "authors" will resolve to use this conten
 Whenever the module templates is printing dates, this format in [Go Layout string](https://gohugo.io/functions/format/#gos-layout-string) will will be used.
 
 
+## Excerpts page
+
+The module can help create a page for a book excerpt whose content file contains the `excerpt` key.
+To add those pages to project you should:
+
+1. Add a cascade key to assign the output format to all books:
+```yaml
+# content/book/_index.md
+---
+title: Books
+# First make sure the cascade is not inherited by the section itself.
+ouputs:
+  - HTML
+# Add children ouputs through cascade.
+cascade:
+  outputs:
+    - HTML
+    - tnd_books_excerpt
+```
+
+
+By default the excerpt will live at `/books/{:slug}/excerpt/`.
+
+
 ## theNewDynamic
 
 This project is maintained and love by [thenewDynamic](https://www.thenewdynamic.com).
