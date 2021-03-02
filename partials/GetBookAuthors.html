@@ -24,15 +24,11 @@
 {{ $authors_files := slice }}
 {{ $authors_key := partialCached "tnd-books/private/GetParamsKey" "authors" "authors" }}
 {{ $authors := slice }}
-{{ if reflect.IsSlice $ }}
-    {{ $authors_files = . }}
+{{ with index $.Params $authors_key }}
+  {{ $authors_files = . }}
 {{ else }}
-  {{ with index $.Params $authors_key }}
-    {{ $authors_files = . }}
-  {{ else }}
-    {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
-      {{ $authors_files = slice . }}
-    {{ end }}
+  {{ with partialCached "tnd-books/private/GetDefaultAuthor" "GetDefaultAuthor" }}
+    {{ $authors_files = slice . }}
   {{ end }}
 {{ end }}
 {{ range $authors_files }}

@@ -1,6 +1,6 @@
 
 {{ $authors := slice }}
-{{ with partialCached "tnd-books/GetBookAuthors" . .}}
+{{ with partialCached "tnd-books/GetBookAuthors" . . }}
   {{ $authors = apply . "partial" "tnd-books/view/person.html" "." }}
   {{ $authors = delimit $authors "," }}
 {{ else}}

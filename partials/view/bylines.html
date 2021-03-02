@@ -2,21 +2,21 @@
   {{ with .translators }}
     <p class="text-xl leading-tight">
       Translated {{with $.Params.language}}from the {{ . }} {{end}}by
-      {{ partialCached "tnd-books/view/authors" . . }}
+      {{ partialCached "tnd-books/view/persons" . . }}
     </p>
   {{ end }}
 
   {{ with .editors }}
     <p class="text-xl leading-tight">
       {{ i18n "Edited by" }}
-      {{ partialCached "tnd-books/view/authors" . . }}
+      {{ partialCached "tnd-books/view/persons" . . }}
     </p>
   {{ end }}
 
   {{ with .contributors }}
     <p class="text-xl leading-tight">
       {{ i18n "With a contribution by" }}
-      {{ partialCached "tnd-books/view/authors" . . }}
+      {{ partialCached "tnd-books/view/persons" . . }}
     </p>
   {{ end }}
 {{ end }}
