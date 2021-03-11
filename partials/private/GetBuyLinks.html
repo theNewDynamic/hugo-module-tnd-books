@@ -33,6 +33,10 @@
 {{ with $config.retailers }}
   {{ $default_services = . }}
 {{ end }}
+{{/* If buylinks services are set through file FrontMatter we overwrite */}}
+{{ with $.Params.buylinks }}
+  {{ $default_services = . }}
+{{ end }}
 {{/* Audio services are a bit special and will be processed seperately */}}
 {{ $audiobooks_services := `
   - id: audible
