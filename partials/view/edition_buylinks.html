@@ -1,5 +1,8 @@
-{{ with partialCached "tnd-books/GetLatestEdition" . . }}
+<div class="text-xs font-sans">
+  {{ .description }}
+</div>
+<div>
   {{ range partial "tnd-books/private/GetBuyLinks" . }}
     {{ partial "tnd-books/view/buylink.html" . }}
   {{ end }}
-{{ end }}
+</div>

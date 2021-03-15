@@ -1,0 +1,10 @@
+{{ range partialCached "tnd-books/GetEditions" . . }}
+  <div class="my-8">
+    <strong>({{ .description }})</strong>
+    {{ range .meta }}
+      <div>
+        {{ .label }}: {{ .value }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

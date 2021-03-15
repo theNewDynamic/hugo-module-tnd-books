@@ -33,28 +33,32 @@
 
 {{ with . }}
   {{ with .binding }}
-    {{ $s.SetInMap "data" "binding" (humanize .)}}
+    {{ $s.SetInMap "data" "binding" . }}
+    {{ $s.SetInMap "data" "description" (humanize .) }}
+  {{ end }}
+  {{ with .description }}
+    {{ $s.SetInMap "data" "description" . }}
   {{ end }}
   {{ with .cover_image }}
     {{ $s.SetInMap "data" "cover" . }}
-  {{ end }}
-
-  {{ with .isbn }}
-    {{ $s.SetInMap "data" "ISBN" . }}
-    {{ $meta = $meta | append (dict "label" "ISBN" "value" .) }}
-  {{ end }}
-
-  {{ with .date }}
-    {{ $date_format := partialCached "tnd-books/private/GetDateFormat" "GetDateFormat" }}
-    {{ $date := dict "raw" . "rendered" (. | dateFormat $date_format) }}
-    {{ $s.SetInMap "data" "date" $date }}
   {{ end }}
 
   {{ with .publisher }}
     {{ $meta = $meta | append (dict "label" "Publisher" "value" .) }}
   {{ end }}
 
+  {{ with .date }}
+    {{ $date_format := partialCached "tnd-books/private/GetDateFormat" "GetDateFormat" }}
+    {{ $date := dict "raw" . "rendered" (. | dateFormat $date_format) }}
+    {{ $s.SetInMap "data" "date" $date }}
+    {{ $meta = $meta | append (dict "label" "Published" "value" $date.rendered) }}
+  {{ end }}
 
+  {{ with .isbn }}
+    {{ $s.SetInMap "data" "ISBN" . }}
+    {{ $s.SetInMap "data" "isbn" . }}
+    {{ $meta = $meta | append (dict "label" "ISBN" "value" .) }}
+  {{ end }}
 
   {{with .sales_data.price_us}}
     {{ $meta = $meta | append (dict "label" "Price US" "value" .) }}

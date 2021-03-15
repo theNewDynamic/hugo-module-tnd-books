@@ -1,5 +1,43 @@
+{{/*
+  GetEditions
+  Retrieve all book editions or only the one contained in the optional parameter "bindings"
+
+  @author @regisphilibert
+
+  @context Page | Map (.)
+    Page (.Page)
+    Slice of strings (.bindings)
+
+  @access private
+
+  @returns Map (see tnd-books/private/ParseEdition@returns)
+
+  @uses
+     - tnd-books/private/ParseEdition
+
+  @example - Go Template
+    {{ with partialCached "GetEditions" context context }}
+      {{ something = . }}
+    {{ end }}
+*/}}
 {{ $editions := slice }}
-{{ with .Params.editions }}
+
+{{ $bindings := slice }}
+{{ $limit := false }}
+{{ $page := . }}
+{{ if reflect.IsMap . }}
+  {{ with .Page }}
+    {{ $page = . }}
+  {{ end }}
+  {{ with .bindings }}
+    {{ $bindings = . }}
+  {{ end }}
+{{ end }}
+{{ $book_editions := $page.Params.editions }}
+{{ with $bindings }}
+  {{ $book_editions = where $book_editions "binding" "in" $bindings }}
+{{ end }}
+{{ with $book_editions }}
   {{ range . }}
     {{ with partialCached "tnd-books/private/ParseEdition" . . }}
       {{ $editions = $editions | append . }}
