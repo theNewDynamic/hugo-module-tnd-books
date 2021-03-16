@@ -1,6 +1,8 @@
 module:
   hugoVersion:
     min: "0.64.0"
+  imports:
+  - path: github.com/theNewDynamic/hugo-module-tnd-func
   mounts:
   - source: layouts
     target: layouts

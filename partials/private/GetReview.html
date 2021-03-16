@@ -1,8 +1,24 @@
+{{/*
+  GetReview
+  Retrives a review either as a preformated Map or a string pointing to a content file path then parse it
+
+  @author @regisphilibert
+
+  @context Map | String (.)
+
+  @access private
+
+  @returns Map (see tnd-books/private/ParseReview@returns)
+
+  @uses
+    - tnd-func/GetPage
+    - tnd-books/private/ParseRevie
+*/}}
 {{ $review := dict }}
 {{ if reflect.IsMap . }}
   {{ $review = . }}
 {{ else }}
-  {{ with site.GetPage . }}
+  {{ with partialCached "tnd-func/GetPage" . . }}
     {{ $review = partialCached "tnd-books/private/ParseReview" . . }}
   {{ end }}
 {{ end }}
