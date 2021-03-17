@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="container">
+  {{ range where .Pages ".Type" "book" }}
+    <a href="{{ .RelPermalink }}" class="py-8">
+      {{ .Render "li" }}
+    </a>
+  {{ end }}
+</div>
+{{ end }}

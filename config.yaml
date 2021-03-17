@@ -6,6 +6,8 @@ module:
   mounts:
   - source: layouts
     target: layouts
+  - source: templates/book
+    target: layouts/book/
   - source: templates/single.tnd_books_excerpt.html
     target: layouts/book/single.tnd_books_excerpt.html
   - source: partials
