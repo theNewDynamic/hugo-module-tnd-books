@@ -20,40 +20,14 @@
     {{ partialCached "path" context "variant" }}
 */}}
 {{ $return := slice }}
-{{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
-{{/* Some services uses the Last Edition */}}
-{{ $default_services := `
-  - id: bookshop
-    label: Your Independent Bookstore
-  - id: barnesandnoble
-    label: Barnes & Noble
-  - id: amazon
-    label: Amazon
-  ` | transform.Unmarshal }}
-{{ with $config.retailers }}
-  {{ $default_services = . }}
-{{ end }}
-{{/* If buylinks services are set through file FrontMatter we overwrite */}}
-{{ with .buylinks }}
-  {{ $default_services = . }}
-{{ end }}
-{{/* Audio services are a bit special and will be processed seperately */}}
-{{ $audiobooks_services := `
-  - id: audible
-    label: "Audible.com"
-  - id: apple_books
-    label: "Apple Books"
-  # - id: libro
-  #   label: "Libro.fm"
-  ` | transform.Unmarshal }}
 
 {{/* If we do have editions */}}
 {{ with $edition := . }}
   {{/* We isolate the first one in the list as it is set as the "buyable" one for regular books.  */}}
   {{/* Regular Edition uses the ISBN to build the URL. */}}
-  {{ range $service := $default_services }}
-    {{ with partial "tnd-books/private/GetBuyLinkURL" (dict "service" .id "edition" $edition) }}
-      {{ $return = $return | append (dict "Name" $service.label "URL" .) }}
+  {{ range $retailer := partialCached "tnd-books/private/GetBindingRetailers" $edition.binding $edition.binding }}
+    {{ with partial "tnd-books/private/GetBuyLinkURL" (dict "retailer" .id "edition" $edition) }}
+      {{ $return = $return | append (dict "Name" $retailer.label "URL" .) }}
     {{ end }}
   {{ end }}
 {{ end }}

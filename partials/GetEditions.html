@@ -1,6 +1,6 @@
 {{/*
   GetEditions
-  Retrieve all book editions or only the one contained in the optional parameter "bindings"
+  Retrieve all book editions or only the ones contained in the optional parameter "bindings"
 
   @author @regisphilibert
 
@@ -33,7 +33,12 @@
     {{ $bindings = . }}
   {{ end }}
 {{ end }}
-{{ $book_editions := $page.Params.editions }}
+
+{{ $book_editions := slice }}
+{{ with $page.Params.editions }}
+  {{ $book_editions = . }}
+{{ end }}
+
 {{ with $bindings }}
   {{ $book_editions = where $book_editions "binding" "in" $bindings }}
 {{ end }}
