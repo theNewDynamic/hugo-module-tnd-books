@@ -1,0 +1,49 @@
+{{/*
+  GetBindingRetailers
+  Returns a list of retailers for a given binding
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access private
+
+  @returns Slice
+
+
+  @example - Go Template
+    {{ with partialCached "Returns a list of retailers for a given binding" context context }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+
+{{ $retailers := slice }}
+
+{{ $available_retailers := partialCached "tnd-books/private/GetDefaultRetailers" "GetDefaultRetailers" }}
+{{ $config := partialCached "tnd-books/private/GetConfig" "GetConfig" }}
+{{ with $config.retailers }}
+  {{ $available_retailers = . }}
+{{ end }}
+
+{{ $paper := slice "amazon" "barnesandnoble" "bookshop" }}
+{{ $audio := slice "amazon_audible" "audible" "apple_books_audio" }}
+{{ $ebook := slice "amazon_kindle" "kindle" "apple_books" }}
+
+{{ $retailer_binding := dict
+  "hardcover" $paper
+  "paperback" $paper
+  "audio" $audio
+  "audiobook" $audio
+  "audio_book" $audio
+  "ebook" $ebook
+}}
+
+{{ with $ }}
+  {{ with index $retailer_binding . }}
+    {{ with where $available_retailers "id" "in" . }}
+      {{ $retailers = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $retailers }}

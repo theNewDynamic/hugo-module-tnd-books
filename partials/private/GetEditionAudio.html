@@ -1,0 +1,30 @@
+{{/*
+  GetEditionAudio
+  Retrieve the latest edition considered as "audio".
+
+  @author @regisphilibert
+
+  @context Page (.)
+
+  @access private
+
+  @returns Map
+    See tnd-books/private/ParseEdition@returns
+
+  @uses
+     - tnd-books/GetEditions
+
+  @example - Go Template
+    {{ with partialCached "GetEditionAudio" . . }}
+      {{ something = . }}
+    {{ end }}
+*/}}
+{{ $edition := dict }}
+{{ $args := dict "Page" $ "bindings" (slice "audio" "audiobook") }}
+{{ with partial "tnd-books/GetEditions" $args }}
+  {{ with index . 0 }}
+    {{ $edition = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $edition }}

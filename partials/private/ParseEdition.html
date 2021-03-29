@@ -60,6 +60,15 @@
     {{ $meta = $meta | append (dict "label" "ISBN" "value" .) }}
   {{ end }}
 
+  {{ with .asin }}
+    {{ $s.SetInMap "data" "asin" . }}
+    {{ $meta = $meta | append (dict "label" "ASIN" "value" .) }}
+  {{ end }}
+
+  {{ with .apple_books_url }}
+    {{ $s.SetInMap "data" "apple_books_url" "something" }}
+  {{ end }}
+
   {{with .sales_data.price_us}}
     {{ $meta = $meta | append (dict "label" "Price US" "value" .) }}
   {{end}}

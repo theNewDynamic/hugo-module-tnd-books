@@ -12,7 +12,7 @@
   @example - Go Template
     {{ $url := partial "tnd-books/private/GetBuyLinkURL" (dict "service" "amazon" "isbn" $isbn) }}
 */}}
-{{ $service := .service }}
+{{ $retailer := .retailer }}
 {{ $edition := .edition }}
 {{ $url := false }}
 {{/* Only default books require the ISBN. */}}
@@ -21,13 +21,13 @@
     {{ $isbn = replace $isbn "-" "" }}
   {{ end }}
   {{ if partial "tnd-books/private/IsISBNValid" $isbn }}
-    {{ if eq $.service "barnesandnoble" }}
+    {{ if eq $.retailer "barnesandnoble" }}
       {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
-    {{ else if eq $.service "bookshop" }}
+    {{ else if eq $.retailer "bookshop" }}
       {{ $url = printf "https://www.bookshop.org/a/287/%s" . }}
-    {{ else if eq $.service "libro" }}
+    {{ else if eq $.retailer "libro" }}
       {{ $url = printf "//https://libro.fm/audiobooks/%s" . }}
-    {{ else if eq $.service "amazon" }}
+    {{ else if eq $.retailer "amazon" }}
       {{ with partial "tnd-books/private/ISBNToASIN" $isbn }}
         {{ $url = printf "https://www.amazon.com/dp/%s" . }}
       {{ end }}
@@ -35,9 +35,15 @@
   {{ end }}
 {{ end }}
 
-{{/* Audio services only need a dedicated parameter in the edition foramted as {service}_url */}}
+{{ with $asin := $edition.asin }}
+  {{ if eq $retailer "amazon" "kindle" "audible" }}
+    {{ $url = printf "https://www.amazon.com/dp/%s" $asin }}
+  {{ end }}
+{{ end }}
+
+{{/* Audio retailers only need a dedicated parameter in the edition foramted as {retailer}_url */}}
 {{ range slice "audible" "apple_books" }}
-  {{ if eq $service . }}
+  {{ if eq $retailer . }}
     {{ with index $edition (printf "%s_url" .) }}
       {{ $url = . }}
     {{ end }}

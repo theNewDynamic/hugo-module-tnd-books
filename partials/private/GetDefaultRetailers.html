@@ -1,0 +1,29 @@
+{{/*
+  GetDefaultRetailers
+  Returns a list of default retailers
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  @returns Slice of Maps
+      - String (.id)
+        String (.label)
+
+*/}}
+{{ return (`
+  - id: bookshop
+    label: Your Independent Bookstore
+  - id: barnesandnoble
+    label: Barnes & Noble
+  - id: amazon
+    label: Amazon
+  - id: audible
+    label: Amazon Audible
+  - id: kindle
+    label: Amazon Kindle
+  - id: apple_books
+    label: "Apple Books"
+  ` | transform.Unmarshal) }} }}
