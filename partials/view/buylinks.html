@@ -1,14 +1,13 @@
+<div class="my-4">
 {{ range $entry := slice 
   (dict "label" "Paper" "partial" "GetEditionPaper")
   (dict "label" "Audio" "partial" "GetEditionAudio")
   (dict "label" "EBook" "partial" "GetEditionEBook") 
 }}
   {{ with partial (print "tnd-books/private/" .partial) $ }}
-  <div class="my-4">
-    <div class="text-xl">{{ $entry.label }}</div>
     {{ range partial "tnd-books/private/GetBuyLinks" . }}
       {{ partial "tnd-books/view/buylink.html" . }}
     {{ end }}
-  </div>
   {{ end }}
 {{ end }}
+</div>
