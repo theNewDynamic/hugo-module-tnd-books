@@ -15,33 +15,48 @@
 {{ $retailer := .retailer }}
 {{ $edition := .edition }}
 {{ $url := false }}
-{{/* Only default books require the ISBN. */}}
-{{ with $isbn := $edition.isbn }}
-  {{ if in $isbn "-" }}
+{{ $isbn := false }}
+{{ $asin := false }}
+{{ with $edition.isbn }}
+  {{ $isbn = . }}
+  {{ if in . "-" }}
     {{ $isbn = replace $isbn "-" "" }}
   {{ end }}
-  {{ if partial "tnd-books/private/IsISBNValid" $isbn }}
-    {{ if eq $.retailer "barnesandnoble" }}
-      {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
-    {{ else if eq $.retailer "bookshop" }}
-      {{ $url = printf "https://www.bookshop.org/a/287/%s" . }}
-    {{ else if eq $.retailer "libro" }}
-      {{ $url = printf "//https://libro.fm/audiobooks/%s" . }}
-    {{ else if eq $.retailer "amazon" }}
-      {{ with partial "tnd-books/private/ISBNToASIN" $isbn }}
-        {{ $url = printf "https://www.amazon.com/dp/%s" . }}
-      {{ end }}
+  {{ if not (partialCached "tnd-books/private/IsISBNValid" $isbn $isbn) }}
+    {{ partial "tnd-books/warn" (printf "ISBN `%s` is not a valid ISBN" $isbn) }}
+    {{ $isbn = false }}
+  {{ end }}
+{{ end }}
+
+{{ with $edition.asin }}
+  {{ $asin = . }}
+{{ else }}
+  {{ with $isbn }}
+    {{ with partial "tnd-books/private/ISBNToASIN" $isbn }}
+      {{ $asin = . }}
     {{ end }}
   {{ end }}
 {{ end }}
 
-{{ with $asin := $edition.asin }}
+{{/* Only default books require the ISBN. */}}
+{{ with $isbn }}
+  {{ if eq $.retailer "barnesandnoble" }}
+    {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
+  {{ else if eq $.retailer "bookshop" }}
+    {{ $url = printf "https://www.bookshop.org/a/287/%s" . }}
+  {{ else if eq $.retailer "libro" }}
+    {{ $url = printf "https://libro.fm/audiobooks/%s" . }}
+  {{ end }}
+{{ end }}
+
+{{/* If ASIN is found or built, we can build the following: */}}
+{{ with $asin }}
   {{ if eq $retailer "amazon" "amazon_kindle" "kindle" "audible" "amazon_audible" }}
     {{ $url = printf "https://www.amazon.com/dp/%s" $asin }}
   {{ end }}
 {{ end }}
 
-{{/* Audio retailers only need a dedicated parameter in the edition foramted as {retailer}_url */}}
+{{/* Some retailers only need a dedicated parameter in the edition foramted as {retailer}_url */}}
 {{ range slice "audible" "amazon_audible" "apple_books" }}
   {{ if eq $retailer . }}
     {{ with index $edition (printf "%s_url" .) }}
