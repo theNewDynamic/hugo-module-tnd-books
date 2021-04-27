@@ -4,6 +4,8 @@ module:
   imports:
   - path: github.com/theNewDynamic/hugo-module-tnd-func
   mounts:
+  - source: data
+    target: data
   - source: layouts
     target: layouts
   - source: templates/book
@@ -14,7 +16,6 @@ module:
     target: layouts/partials/tnd-books
   - source: console
     target: layouts/partials/tnd-books
-
 outputFormats:
   tnd_books_excerpt:
     baseName: excerpt/index

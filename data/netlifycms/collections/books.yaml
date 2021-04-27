@@ -1,0 +1,9 @@
+name: books
+label: Books
+singular_label: Book
+folder: content/en/book
+filter: { field: "exclude_collection" }
+fields:
+  - import field title
+  - import field description
+  - import field books_editions

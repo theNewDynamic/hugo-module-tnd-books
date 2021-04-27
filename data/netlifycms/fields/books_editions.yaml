@@ -1,0 +1,23 @@
+name: editions
+label: Editions
+widget: list
+fields:
+- name: binding
+  widget: select
+  options:
+  - paperback
+  - hardcover
+  - ebook
+  - special
+  - audiobook
+- import field books_date
+- name: cover_image
+  lable: Cover Image
+  widget: image
+- name: isbn
+  widget: string
+- name: asin
+  widget: string
+- name: publisher
+  widget: string
+- import field description

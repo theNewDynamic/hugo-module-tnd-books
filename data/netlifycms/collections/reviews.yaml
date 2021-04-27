@@ -1,0 +1,12 @@
+name: reviews
+label: Reviews
+singular_label: Review
+folder: content/en/review
+filter: { field: "exclude_collection" }
+fields:
+  - import field title
+  - name: attribution
+    widget: string
+  - name: links_to_original
+    widget: string
+  - import field body
