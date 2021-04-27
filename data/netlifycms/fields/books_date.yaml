@@ -1,3 +1,4 @@
 label: "Date"
 name: "date"
 widget: "date"
+required: false

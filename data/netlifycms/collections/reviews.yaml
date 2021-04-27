@@ -7,6 +7,8 @@ fields:
   - import field title
   - name: attribution
     widget: string
+    required: false
   - name: links_to_original
     widget: string
+    required: false
   - import field body

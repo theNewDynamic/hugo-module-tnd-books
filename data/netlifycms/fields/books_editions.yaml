@@ -14,10 +14,14 @@ fields:
 - name: cover_image
   lable: Cover Image
   widget: image
+  required: false
 - name: isbn
   widget: string
+  required: false
 - name: asin
   widget: string
+  required: false
 - name: publisher
   widget: string
+  required: false
 - import field description
