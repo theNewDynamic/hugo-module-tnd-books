@@ -7,3 +7,4 @@ fields:
   - import field title
   - import field description
   - import field books_editions
+  - import field body
