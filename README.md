@@ -60,7 +60,6 @@ editions:
 
 The module sports a sophisticated Buylink generator which relies on retailers IDs and edition bindings.
 Here are the current available retailers, their ids, the bindings they sell, and the expected edition's data for link generation
-```
 
 ##### Your Independent Bookstore
   - id: bookshop
@@ -95,7 +94,6 @@ Here are the current available retailers, their ids, the bindings they sell, and
   - id: apple_books
   - expect: `apple_books_url` key on the edition
   - type: ebook
-```
 
 ### Settings
 
