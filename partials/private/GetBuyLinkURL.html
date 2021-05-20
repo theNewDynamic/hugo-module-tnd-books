@@ -35,7 +35,8 @@
 {{/* Only default books require the ISBN. */}}
 {{ with $isbn }}
   {{ if eq $.retailer "amazon" }}
-    {{ with partial "tnd-books/private/ISBNToASIN" . }}
+    {{/* For paper edition, amazon URL expects an ISBN10 */}}
+    {{ with partial "tnd-books/private/ISBN13ToISBN10" . }}
       {{ $url = printf "https://www.amazon.com/dp/%v" . }}
     {{ end }}
   {{ else if eq $.retailer "barnesandnoble" "barnesandnoble_nook" }}

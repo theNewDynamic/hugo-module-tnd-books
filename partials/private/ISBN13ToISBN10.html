@@ -1,5 +1,5 @@
 {{/*
-  Convert ISBN string to ASIN (Amazon)
+  Convert ISBN13 string to ISBN10
 
   Port from
   ```
@@ -32,7 +32,7 @@
   @return String (.)
 
   @example - Go Template
-    {{ with partial "tnd-books/private/ISBNToASIN" . }}
+    {{ with partial "tnd-books/private/ISBN13ToISBN10" . }}
       {{ $url = printf "https://www.amazon.com/dp/%s" . }}
     {{ end }}
 */}}
