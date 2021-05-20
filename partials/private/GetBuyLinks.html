@@ -27,7 +27,7 @@
   {{/* Regular Edition uses the ISBN to build the URL. */}}
   {{ range $retailer := partialCached "tnd-books/private/GetBindingRetailers" $edition.binding $edition.binding }}
     {{ with partial "tnd-books/private/GetBuyLinkURL" (dict "retailer" .id "edition" $edition) }}
-      {{ $return = $return | append (dict "Name" $retailer.label "URL" .) }}
+      {{ $return = $return | append (dict "Name" $retailer.label "URL" . "Binding" $edition.binding "RetailerID" $retailer.id) }}
     {{ end }}
   {{ end }}
 {{ end }}

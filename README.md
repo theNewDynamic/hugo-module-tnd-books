@@ -28,9 +28,74 @@ module:
 
 ## Usage
 
-### Some Partial/Feature
+### Editions and bindings
 
-#### Examples
+Each book lists an array of editions identified by a binding. 
+
+#### Edition front matter
+
+```yaml
+title: "L.A. Confidential"
+description: "_L.A. Confidential_ is an epic crime novel that stands as a steel-edged time capsule—Los Angeles in the 1950s, a remarkable era defined in dark shadings."
+editions:
+- binding: paperback
+  isbn: 9780446674249
+  date: 1997-09-01T15:53:00.000Z
+  publisher: Grand Central Publishing
+  cover_image: /uploads/la_confidential_cover.jpg
+- binding: ebook
+  isbn: 9781455528745
+  asin: B00AMILAEK
+  publisher: Grand Central Publishing
+```
+
+#### Available Bindings
+
+- harcover
+- paperback
+- audiobook
+- ebook
+
+### Buylinks
+
+The module sports a sophisticated Buylink generator which relies on retailers IDs and edition bindings.
+Here are the current available retailers, their ids, the bindings they sell, and the expected edition's data for link generation
+```
+
+##### Your Independent Bookstore
+  - id: bookshop
+  - expect: ISBN
+  - type: hardcover, paperback
+##### Barnes & Noble
+  - id: barnesandnoble
+  - expect: ISBN
+  - type: hardcover, paperback
+##### Barnes & Noble Nook
+  - id: barnesandnoble_nook
+  - expect: ISBN
+  - type: ebook
+##### Libro
+  - id: libro
+  - expect: ISBN
+  - type: audiobook
+
+##### Amazon
+  - id: amazon
+  - expect: ISBN/ASIN
+  - type: hardcover, paperback
+##### Amazon Audible
+  - id: amazon_audible
+  - expect: ASIN
+  - type: audiobook
+##### Amazon Kindle
+  - id: amazon_kindle
+  - expect: ASIN
+  - type: ebook
+##### Apple Books
+  - id: apple_books
+  - expect: `apple_books_url` key on the edition
+  - type: ebook
+```
 
 ### Settings
 
@@ -57,6 +122,27 @@ If set, Books without any Front Matter "authors" will resolve to use this conten
 
 Whenever the module templates is printing dates, this format in [Go Layout string](https://gohugo.io/functions/format/#gos-layout-string) will will be used.
 
+#### retailers
+
+The retailers config key allows users to overwrite the default list of retailers to limit, order or overwrite labels:
+
+```yaml
+# config.yaml's retailers example and defaults
+params:
+  tnd_books:
+  - id: barnesandnoble
+    label: Barnes & Noble
+  - id: barnesandnoble_nook
+    label: Barnes & Noble Nook
+  - id: amazon
+    label: Amazon
+  - id: amazon_audible
+    label: Amazon Audible
+  - id: amazon_kindle
+    label: Amazon Kindle
+  - id: apple_books
+    label: "Apple Books"
+```
 
 ## Excerpts page
 

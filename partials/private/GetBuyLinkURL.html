@@ -40,19 +40,19 @@
 
 {{/* Only default books require the ISBN. */}}
 {{ with $isbn }}
-  {{ if eq $.retailer "barnesandnoble" }}
+  {{ if eq $.retailer "barnesandnoble" "barnesandnoble_nook" }}
     {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
   {{ else if eq $.retailer "bookshop" }}
-    {{ $url = printf "https://www.bookshop.org/a/287/%s" . }}
+    {{ $url = printf "https://www.bookshop.org/a/287/%v" . }}
   {{ else if eq $.retailer "libro" }}
-    {{ $url = printf "https://libro.fm/audiobooks/%s" . }}
+    {{ $url = printf "https://libro.fm/audiobooks/%v" . }}
   {{ end }}
 {{ end }}
 
 {{/* If ASIN is found or built, we can build the following: */}}
 {{ with $asin }}
   {{ if eq $retailer "amazon" "amazon_kindle" "kindle" "audible" "amazon_audible" }}
-    {{ $url = printf "https://www.amazon.com/dp/%s" $asin }}
+    {{ $url = printf "https://www.amazon.com/dp/%v" $asin }}
   {{ end }}
 {{ end }}
 
