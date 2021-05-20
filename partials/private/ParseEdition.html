@@ -66,7 +66,7 @@
   {{ end }}
 
   {{ with .apple_books_url }}
-    {{ $s.SetInMap "data" "apple_books_url" "something" }}
+    {{ $s.SetInMap "data" "apple_books_url" . }}
   {{ end }}
 
   {{with .sales_data.price_us}}

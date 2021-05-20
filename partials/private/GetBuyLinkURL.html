@@ -30,17 +30,15 @@
 
 {{ with $edition.asin }}
   {{ $asin = . }}
-{{ else }}
-  {{ with $isbn }}
-    {{ with partial "tnd-books/private/ISBNToASIN" $isbn }}
-      {{ $asin = . }}
-    {{ end }}
-  {{ end }}
 {{ end }}
 
 {{/* Only default books require the ISBN. */}}
 {{ with $isbn }}
-  {{ if eq $.retailer "barnesandnoble" "barnesandnoble_nook" }}
+  {{ if eq $.retailer "amazon" }}
+    {{ with partial "tnd-books/private/ISBNToASIN" . }}
+      {{ $url = printf "https://www.amazon.com/dp/%v" . }}
+    {{ end }}
+  {{ else if eq $.retailer "barnesandnoble" "barnesandnoble_nook" }}
     {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
   {{ else if eq $.retailer "bookshop" }}
     {{ $url = printf "https://www.bookshop.org/a/287/%v" . }}

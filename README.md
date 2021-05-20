@@ -80,7 +80,7 @@ Here are the current available retailers, their ids, the bindings they sell, and
 
 ##### Amazon
   - id: amazon
-  - expect: ISBN/ASIN
+  - expect: ISBN or ASIN
   - type: hardcover, paperback
 ##### Amazon Audible
   - id: amazon_audible
