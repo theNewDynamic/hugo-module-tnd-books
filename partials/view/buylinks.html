@@ -1,13 +1,16 @@
 <div class="my-4">
-{{ range $entry := slice 
-  (dict "label" "Paper" "partial" "GetEditionPaper")
-  (dict "label" "Audio" "partial" "GetEditionAudio")
-  (dict "label" "EBook" "partial" "GetEditionEBook") 
-}}
-  {{ with partial (print "tnd-books/private/" .partial) $ }}
-    {{ range partial "tnd-books/private/GetBuyLinks" . }}
-      {{ partial "tnd-books/view/buylink.html" . }}
+  {{ range $entry := slice 
+    (dict "label" "print" "partial" "GetEditionPaper")
+    (dict "label" "e-book" "partial" "GetEditionEBook")
+    (dict "label" "audio" "partial" "GetEditionAudio")
+  }}
+    {{ with partial (print "tnd-books/private/" .partial) $ }}
+      <div class="mb-2">
+        <div class="text-xs mb-1 font-bold">{{ $entry.label }}</div>
+        {{ range partial "tnd-books/private/GetBuyLinks" . }}
+          {{ partial "tnd-books/view/buylink.html" . }}
+        {{ end }}
+      </div>
     {{ end }}
   {{ end }}
-{{ end }}
 </div>
