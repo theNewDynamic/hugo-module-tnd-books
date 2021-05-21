@@ -14,8 +14,8 @@
 
 */}}
 {{ return (`
-  # - id: bookshop
-  #  label: Your Independent Bookstore
+  - id: indiebound
+    label: Your Independent Bookstore
   - id: barnesandnoble
     label: Barnes & Noble
   - id: barnesandnoble_nook
@@ -27,5 +27,5 @@
   - id: amazon_kindle
     label: Amazon Kindle
   - id: apple_books
-    label: "Apple Books"
-  ` | transform.Unmarshal) }} }}
+    label: Apple Books
+  ` | transform.Unmarshal) }}

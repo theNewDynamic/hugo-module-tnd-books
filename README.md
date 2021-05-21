@@ -62,7 +62,7 @@ The module sports a sophisticated Buylink generator which relies on retailers ID
 Here are the current available retailers, their ids, the bindings they sell, and the expected edition's data for link generation
 
 ##### Your Independent Bookstore
-  - id: bookshop
+  - id: indiebound
   - expect: ISBN
   - type: hardcover, paperback
 ##### Barnes & Noble
@@ -92,7 +92,7 @@ Here are the current available retailers, their ids, the bindings they sell, and
   - type: ebook
 ##### Apple Books
   - id: apple_books
-  - expect: `apple_books_url` key on the edition
+  - expect: ISBN or custom `apple_books_url` key on the edition
   - type: ebook
 
 ### Settings

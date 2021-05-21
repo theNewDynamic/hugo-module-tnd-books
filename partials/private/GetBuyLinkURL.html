@@ -43,6 +43,10 @@
     {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
   {{ else if eq $.retailer "bookshop" }}
     {{ $url = printf "https://www.bookshop.org/a/287/%v" . }}
+  {{ else if eq $.retailer "apple_books" }}
+    {{ $url = printf "https://itunes.apple.com/us/book/isbn%v" . }}
+  {{ else if eq $.retailer "indiebound" }}
+    {{ $url = printf "https://www.indiebound.org/book/%v" }}
   {{ else if eq $.retailer "libro" }}
     {{ $url = printf "https://libro.fm/audiobooks/%v" . }}
   {{ end }}
