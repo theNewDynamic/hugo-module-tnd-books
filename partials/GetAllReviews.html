@@ -1,7 +1,7 @@
 {{ $output := slice }}
 {{ $reviews := where site.RegularPages ".Type" "review" }}
 {{ with $reviews }}
-  {{ $output = apply "partialCached" "tnd-books/private/ParseReview" . . }}
+  {{ $output = apply . "partialCached" "tnd-books/private/ParseReview" "." "." }}
 {{ end }}
 
 {{ return $output }}
