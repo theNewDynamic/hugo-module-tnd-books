@@ -18,7 +18,7 @@
 {{ $isbn := false }}
 {{ $asin := false }}
 {{ with $edition.isbn }}
-  {{ $isbn = . }}
+  {{ $isbn = string . }}
   {{ if in . "-" }}
     {{ $isbn = replace $isbn "-" "" }}
   {{ end }}
@@ -40,7 +40,7 @@
       {{ $url = printf "https://www.amazon.com/dp/%v" . }}
     {{ end }}
   {{ else if eq $.retailer "barnesandnoble" "barnesandnoble_nook" }}
-    {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v#/" . }}
+    {{ $url = printf "https://www.barnesandnoble.com/w/?ean=%v/" . }}
   {{ else if eq $.retailer "bookshop" }}
     {{ $url = printf "https://www.bookshop.org/a/287/%v" . }}
   {{ else if eq $.retailer "apple_books" }}

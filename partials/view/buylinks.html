@@ -1,8 +1,8 @@
 <div class="my-4">
   {{ range $entry := slice 
-    (dict "label" "print" "partial" "GetEditionPaper")
-    (dict "label" "e-book" "partial" "GetEditionEBook")
-    (dict "label" "audio" "partial" "GetEditionAudio")
+    (dict "label" "Print" "partial" "GetEditionPaper")
+    (dict "label" "E-Book" "partial" "GetEditionEBook")
+    (dict "label" "Audio Book" "partial" "GetEditionAudio")
   }}
     {{ with partial (print "tnd-books/private/" .partial) $ }}
       <div class="mb-2">
