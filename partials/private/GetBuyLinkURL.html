@@ -58,9 +58,8 @@
     {{ $url = printf "https://www.amazon.com/dp/%v" $asin }}
   {{ end }}
 {{ end }}
-
 {{/* Some retailers only need a dedicated parameter in the edition foramted as {retailer}_url */}}
-{{ range slice "audible" "amazon_audible" "apple_books" }}
+{{ range slice "audible" "amazon_audible" "apple_books" "bam" }}
   {{ if eq $retailer . }}
     {{ with index $edition (printf "%s_url" .) }}
       {{ $url = . }}

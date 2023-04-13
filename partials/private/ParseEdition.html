@@ -69,6 +69,10 @@
     {{ $s.SetInMap "data" "apple_books_url" . }}
   {{ end }}
 
+  {{ with .bam_url }}
+    {{ $s.SetInMap "data" "bam_url" . }}
+  {{ end }}
+
   {{with .sales_data.price_us}}
     {{ $meta = $meta | append (dict "label" "Price US" "value" .) }}
   {{end}}
